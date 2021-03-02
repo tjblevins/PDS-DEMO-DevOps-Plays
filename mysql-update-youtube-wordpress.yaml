@@ -1,0 +1,15 @@
+- name: Update Youtube Video on Wordpress
+  hosts: "{{server_ip}}"
+  tasks:
+  - name: Push Template SQL Script
+    template:
+      src: files/site_config-pipe.tmp
+      dest: /root/youtube.sql
+  - name: Import youtube.sql into DB
+    mysql_db:
+      login_user: "{{user}}"
+      login_password: "{{password}}"
+      login_host: localhost
+      state: import
+      name: "{{db}}"
+      target: /root/youtube.sql
